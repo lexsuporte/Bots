@@ -1,0 +1,16 @@
+Cadastro LEX
+
+    nomeCompleto = Adicionar nome do usuário a ser cadastrado
+    
+    dataNascimento = Adicionar a data de nascimento (ex: 27/11/1996)
+    
+    cpfNumero = Adicionar CPF do Usuário sem pontos entre as aspas
+    
+    emailText = Adicionar o E-mail entre as Aspas
+    
+    perfilAdicionar = Adicionar entre () os perfis que ("Admin Escola", "Coordenador","Secretaria", "Gestor", "Operador Financeiro")  #Os perfis que vocês quiserem adicionar, precisa digitar aqui exatamente como é na LEX
+
+
+Enturmar
+
+     timeLexToddle = [ "adicionar o EMAIL do usuário","adicionar o EMAIL do usuário"] pode adicionar quantos quiser, mas precisa sempre colocar ,

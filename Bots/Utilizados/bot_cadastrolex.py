@@ -75,7 +75,7 @@ if elementos_filtrados:
             menuUsuarios.click()
 
             filtrarNome = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-usuario/div/seb-list-table-usuario/div/seb-list-filter-user/form/div[1]/div[1]/input')))
-            filtrarNome.send_keys('41431091820')
+            filtrarNome.send_keys('41431091820')  #Adicionar CPF do Usuário sem pontos
             filtrarNome.send_keys(Keys.ENTER)
             time.sleep(0.5)
             filtrarNome.send_keys(Keys.ENTER)
@@ -97,21 +97,21 @@ if elementos_filtrados:
                 novoUsuario.click()       
                 
                 nomeCompleto = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[1]/div[2]/input')))
-                nomeCompleto.send_keys("João Felipe Gutierrez de Freitas")
+                nomeCompleto.send_keys("João Felipe Gutierrez de Freitas") #Adicionar nome do usuário a ser cadastrado
                 
                 dataNascimento = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[1]/div[3]/div/seb-datepicker/form/div/input')))
-                dataNascimento.send_keys("27/01/1992")
+                dataNascimento.send_keys("27/01/1992") #Adicionar a data de nascimento
                 
                 cpfNumero = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[2]/div[1]/input')))
-                cpfNumero.send_keys("41431091820")
+                cpfNumero.send_keys("41431091820") #Adicionar CPF do Usuário sem pontos
                 
                 #celularNumero = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[2]/div[3]/intl-input/div/div/input')))
                 #celularNumero.send_keys("12981856171")
                 
                 emailText = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[3]/div[1]/input')))
-                emailText.send_keys('joao.freitas@mbcentral.com.br')
+                emailText.send_keys('joao.freitas@mbcentral.com.br') #Adicionar o E-mail
                 
-                perfilAdicionar = ("Admin Escola", "Coordenador","Secretaria", "Gestor", "Operador Financeiro")
+                perfilAdicionar = ("Admin Escola", "Coordenador","Secretaria", "Gestor", "Operador Financeiro")  #Os perfis que vocês quiserem adicionar, precisa digitar aqui exatamente como é na LEX
 
                 # perfilSelecionar = WebDriverWait(driver,2).until(EC.element_to_be_clickable((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/section[1]/div[2]/div[1]/ng-select/div/div/div[2]/input')))
                 # perfilSelecionar.send_keys("Admin Operação")
