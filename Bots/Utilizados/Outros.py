@@ -2052,21 +2052,123 @@ def cadastrarProdutosTodos(driver, cardsEscolas, arquivo):
             driver.switch_to.window(driver.window_handles[0])
             time.sleep(1)
 
-
-        
-        if len(driver.window_handles) > 1:
-            driver.close()
+    if len(driver.window_handles) > 1:
+        driver.close()
         first_tab = driver.window_handles[0]
-        driver.switch_to.window(first_tab)              
+        driver.switch_to.window(first_tab)  
+            
+def inativarUsuario(driver,cardsEscolas,arquivo):
+    
+    with codecs.open(arquivo, "a","utf-8") as file:
+        file.write(f"\n\nNova execução\n\n")
+
+    TIMEOUT_HOMEPAGE = 50
+
+    cardsEscolas = cardsEscolas[91:240] # Remove a escola Mapple bear demonstração e o card "Administrador"
+    
+    time.sleep(1)
+
+    for escola in cardsEscolas:
+        nomeEscola = (escola.find_element(By.CSS_SELECTOR, "h3")).text
+        
+        # Clica no card da escola
+        escola.click()
+
+        time.sleep(3)   # Delay necessário
+
+        # Espera enconrar o card Administrador e clica
+        cardAdministrador = WebDriverWait(driver,TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, '/html/body/sso-root/lex-user-portal-page/lex-backdrop/div/div/main/section[2]/lex-card/div/a[1]/div')))
+        h3_element = cardAdministrador.find_element(By.XPATH, ".//h3")
+        
+        if h3_element.text != "Administrador":
+            print(f"{nomeEscola}, Sem acesso ao painel Administrador")
+            with codecs.open(arquivo, "a","utf-8") as file:
+                file.write(f"{nomeEscola}, Sem acesso ao painel Administrador\n")
+            continue    # Pular o codigo abaixo, pois a escola não possui o card administrador
+
+        cardAdministrador.click()
+
+        time.sleep(2)
+
+        novaAba = driver.window_handles[-1]
+        driver.switch_to.window(novaAba)
+
+        time.sleep(2)   # Delay necessário
+          
+        menuUsuario = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/nav/div/ul/li[5]/a"))) 
+        menuUsuario.click()
+
+        usuariosInativar = ( "451.662.058-80" , "397.194.908-88", "400.520.268-33") #falta o luiz "451.662.058-80" , "397.194.908-88", "400.520.268-33", "329.729.308-00")
+        
+        for usuarios in usuariosInativar:
+                
+            inputCPF = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-usuario/div/seb-list-table-usuario/div/seb-list-filter-user/form/div[1]/div[1]/input"))) 
+            inputCPF.send_keys(Keys.CONTROL + "A")
+            inputCPF.send_keys(Keys.DELETE)
+            time.sleep(1) 
+            
+            inputCPF.send_keys(usuarios)
+            time.sleep(2)
+            inputCPF.send_keys(Keys.ENTER)
+            
+            time.sleep(3)
+
+            usuario_existe = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, '.lex-table-row')))
+            
+            time.sleep(3)
+        
+            if len(usuario_existe) == 2:
+                
+                time.sleep(2)
+                
+                cadastroUsuario = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-usuario/div/seb-list-table-usuario/div/seb-lex-table/div[2]/div[2]/div")))         
+                cadastroUsuario.click()
+                
+                time.sleep(5)
+                
+                usuarioAtivo = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-edit-user/form/div[1]/label/span"))) 
+                usuarioAtivo.click()
+
+                notificacaoInativar = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-edit-user/seb-modal-warning/div/div/div/div[3]/button[2]"))) 
+                time.sleep(1)
+                notificacaoInativar.click()
+
+                salvar = WebDriverWait(driver, TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-edit-user/form/div[2]/section[7]/div/seb-buttons-form-completion/div/button[2]/div/span"))) 
+                salvar.click()
+                
+                time.sleep(10)
+                
+                print(f"{nomeEscola}, Usuário inativado ")
+
+            
+            else:  
+                
+                time.sleep(2)
+                    
+                print(f"{nomeEscola}, Usuário não existe")
+                inputCPF.send_keys(Keys.CONTROL + "A")
+                inputCPF.send_keys(Keys.DELETE)
+                
+                time.sleep(2)
+                
+        driver.close()
+        driver.switch_to.window(driver.window_handles[0])
+        time.sleep(1) 
+
+  
+                
 if __name__ == "__main__":
-
-
+    
     driver = webdriver.Chrome()
 
     login(driver)
     dismissCompletarCadastr(driver)
     cardsEscolas = pegarEscolas(driver)
-    cadastrarProdutosTodos(driver,cardsEscolas,"cursosBC25.txt")
+    posicoesEscolas(driver) #verifica a posiçao das escolas
+
+
+
+    #cadastrarProdutosTodos(driver,cardsEscolas,"cursosBC25.txt")
     #fazerTudoTurma(driver,cardsEscolas,"cursosBC25.txt")
     #adicionarUsuariosTurmas(driver, cardsEscolas, "cursosBC25.txt")
     #cadastrarTurmas(driver, cardsEscolas, "cursosBC25.txt") #cadastra turmas
@@ -2076,6 +2178,6 @@ if __name__ == "__main__":
     #verificarTurmas(driver, cardsEscolas,"cursos2025.txt" )
     #pegarCursos2025(driver,cardsEscolas,"cursos2025.txt")
     #pegarCNPJ(driver, cardsEscolas, "cnpjs2025.txt")
-    
+
     
     

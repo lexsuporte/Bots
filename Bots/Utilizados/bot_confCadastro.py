@@ -92,7 +92,7 @@ if elementos_filtrados:
                 menuUsuarios.click()
 
             filtrarNome = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-usuario/div/seb-list-table-usuario/div/seb-list-filter-user/form/div[1]/div[1]/input')))
-            filtrarNome.send_keys('11741202400')
+            filtrarNome.send_keys('11741202400') #Adicionar o CPF do usuário sem pontos
             filtrarNome.send_keys(Keys.ENTER)
             time.sleep(4)
             filtrarNome.send_keys(Keys.ENTER)

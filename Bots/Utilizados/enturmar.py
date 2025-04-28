@@ -24,8 +24,6 @@ driver = webdriver.Chrome()
 
 driver.get("https://lex.education/")
 
-
-
 perfilUsuario = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '//*[@id="user-portal-profile"]/lex-card/div/a[3]/div/div[2]/h3')))
 perfilUsuario.click()
 
@@ -131,7 +129,6 @@ if elementos_filtrados:
                 clicarTurma.click()
                 
                 time.sleep(1)
-                
                 
                 timeLexToddle = [ "joao.freitas@mbcentral.com.br"] 
                         # timeLexToddle = ["jaqueline.floriano@dnx.tec.br", "fernanda.vieira@dnx.tec.br"] 
