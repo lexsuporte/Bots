@@ -1,37 +1,49 @@
-Automação de Processos - Sistema LEX
 
+# 🧩 Automação de Processos - Sistema LEX
 
-Este repositório contém automações desenvolvidas com Python e Selenium para o sistema LEX. O objetivo é automatizar operações como cadastro de usuários, configuração de turmas, consulta de cursos, entre outras rotinas administrativas no sistema.
+Este repositório contém automações desenvolvidas em **Python** e **Selenium** para o sistema **LEX**.  
+O objetivo é automatizar tarefas como cadastro de usuários, configuração de turmas, consulta de cursos, entre outras rotinas administrativas.
 
-🛠 Tecnologias Utilizadas
-Python 3.x
-Selenium WebDriver
-Google Chrome + Chromedriver
+---
 
-🚀 Como Rodar o Projeto
-1. Instalação dos Requisitos
-Clone o repositório:
+## 🛠 Tecnologias Utilizadas
 
+- Python 3.x
+- Selenium WebDriver
+- Google Chrome + Chromedriver
+
+---
+
+## 🚀 Como Rodar o Projeto
+
+### 1. Clone o Repositório
+
+```bash
 git clone https://github.com/seu-usuario/lex-automation.git
+```
 
-Instale as dependências:
+### 2. Instale as Dependências
 
 pip install -r requirements.txt
 
-2. Executando um Script
-Você pode executar qualquer bot diretamente
 
-📋 Sobre os Bots
-Bots Antigos
-Scripts da pasta Antigos/ foram versões preliminares e estão mantidos para histórico e referência. Não são mais utilizados diretamente nas operações correntes.
+## 🤖 Sobre os Bots
 
-Bots Utilizados
-Os bots da pasta Utilizados/ são os scripts que estão ativos e recebem atualizações de manutenção. Exemplos:
+### BOTS/Antigos
 
-bot_cadastrolext.py: Cadastro de usuários no LEX.
+Scripts antigos desenvolvidos durante a fase inicial do projeto.  
+**Não utilizados nas operações atuais.**
 
-bot_confCadastro.py: Verifica em quais escolas o usuário foi cadastrado.
+---
 
-enturmar.py: Adiciona os usuários inseridos variavel nas turmas.
+### BOTS/Utilizados
 
-Outros.py: Scripts de apoio para diversas funcionalidades.
+Scripts ativos atualmente:
+
+- `bot_cadastrolext.py` — Automatiza o cadastro de usuários no LEX.
+- `bot_confCadastro.py` — Verifica em quais escolas o usuário foi cadastrado.
+- `enturmar.py` — Adiciona os usuários em variáveis específicas nas turmas.
+- `Outros.py` — Scripts auxiliares para diversas funcionalidades.
+
+---
+
