@@ -20,7 +20,6 @@ O objetivo é automatizar tarefas como cadastro de usuários, configuração de 
 
 ```bash
 git clone https://github.com/seu-usuario/lex-automation.git
-cd lex-automation
 ```
 
 ### 2. Instale as Dependências
