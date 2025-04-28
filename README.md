@@ -1,4 +1,6 @@
 Automação de Processos - Sistema LEX
+
+
 Este repositório contém automações desenvolvidas com Python e Selenium para o sistema LEX. O objetivo é automatizar operações como cadastro de usuários, configuração de turmas, consulta de cursos, entre outras rotinas administrativas no sistema.
 
 🛠 Tecnologias Utilizadas
