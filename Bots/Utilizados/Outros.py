@@ -493,6 +493,7 @@ def verificarTurmas(driver, cardsEscolas, arquivo):
 def posicoesEscolas(driver):
     
     
+    
 
     TIMEOUT_HOMEPAGE = 30
 
@@ -2051,128 +2052,12 @@ def cadastrarProdutosTodos(driver, cardsEscolas, arquivo):
             driver.switch_to.window(driver.window_handles[0])
             time.sleep(1)
 
-def cadastrarUsuarios(driver,cardsEscolas, arquivo):
-    
-    with codecs.open(arquivo, "a","utf-8") as file:
-            file.write(f"\n\nNova execução\n\n")
-    
-    TIMEOUT_HOMEPAGE = 30
 
-    cardsEscolas = cardsEscolas[180:-1] # Remove a escola Mapple bear demonstração e o card "Administrador"
-
-    for escola in cardsEscolas:
-            nomeEscola = (escola.find_element(By.CSS_SELECTOR, "h3")).text
-            
-            # Clica no card da escola
-            escola.click()
-
-            time.sleep(3)   # Delay necessário
-
-            # Espera enconrar o card Administrador e clica
-            cardAdministrador = WebDriverWait(driver,TIMEOUT_HOMEPAGE).until(EC.presence_of_element_located((By.XPATH, '/html/body/sso-root/lex-user-portal-page/lex-backdrop/div/div/main/section[2]/lex-card/div/a[1]/div')))
-            h3_element = cardAdministrador.find_element(By.XPATH, ".//h3")
-            
-            if h3_element.text != "Administrador":
-                print(f"{nomeEscola}, Sem acesso ao painel Administrador")
-                with codecs.open(arquivo, "a","utf-8") as file:
-                    file.write(f"{nomeEscola}, Sem acesso ao painel Administrador\n")
-                continue    # Pular o codigo abaixo, pois a escola não possui o card administrador
-            
-            time.sleep(10)
-
-            cardAdministrador.click()
-
-            time.sleep(5)
-
-            novaAba = driver.window_handles[-1]
-            driver.switch_to.window(novaAba)
-            
-            if driver.current_url == "about:blank":
-                print("Página inválida detectada ('about:blank'). Fechando a aba.")
-                driver.close()  # Fecha a aba inválida
-
-                # Verifica se ainda existem outras abas abertas
-                if driver.window_handles:
-                    driver.switch_to.window(driver.window_handles[0])  # Troca para a aba inicial
-                    time.sleep(1)  # Pequeno delay para garantir que o foco mude corretamente
-                    
-            menuUsuarios = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//a[@href='/usuarios']")))
-            menuUsuarios.click()
-
-            filtrarNome = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-usuario/div/seb-list-table-usuario/div/seb-list-filter-user/form/div[1]/div[1]/input')))
-            filtrarNome.send_keys('38817627879')
-            filtrarNome.send_keys(Keys.ENTER)
-            time.sleep(0.5)
-            filtrarNome.send_keys(Keys.ENTER)
-            
-            nenhum_registro = False
-
-            try:
-                # Esperar até que o elemento esteja presente na página
-                WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.no-data")))
-                
-                # Se a exceção não for acionada, definir a variável para True
-                nenhum_registro = True
-
-            except TimeoutException:
-                pass
-
-            if(nenhum_registro):
-                novoUsuario = WebDriverWait(driver,3).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-usuario/seb-titlebar/div/div/div[2]/div/lex-button/button/span')))
-                novoUsuario.click()       
-                
-                nomeCompleto = WebDriverWait(driver,10).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[1]/div[2]/input')))
-                nomeCompleto.send_keys("Gabriel Castilho")
-                
-                dataNascimento = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[1]/div[3]/div/seb-datepicker/form/div/input')))
-                dataNascimento.send_keys("17/10/1999")
-                
-                cpfNumero = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[2]/div[1]/input')))
-                cpfNumero.send_keys("38817627879")
-                
-                #celularNumero = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[2]/div[3]/intl-input/div/div/input')))
-                #celularNumero.send_keys("12981856171")
-                
-                emailText = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/div/div[3]/div[1]/input')))
-                emailText.send_keys('gabriel.castilho@dnx.tec.br')
-                
-                perfilSelecionar = WebDriverWait(driver,2).until(EC.element_to_be_clickable((By.XPATH, '/html/body/seb-root/div[3]/div/seb-new-user/div/form/section[1]/div[2]/div[1]/ng-select/div/span')))
-                perfilSelecionar.click()  
-                    
-                selecionarAdminEscola = WebDriverWait(driver,6).until(EC.element_to_be_clickable((By.XPATH, "/html/body/seb-root/div[3]/div/seb-new-user/div/form/section[1]/div[2]/div[1]/ng-select/ng-dropdown-panel/div/div[2]/div[1]")))
-                selecionarAdminEscola.click()
-                
-                criarPerfil = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, " /html/body/seb-root/div[3]/div/seb-new-user/div/form/section[1]/div[2]/div[2]/button")))
-                criarPerfil.click()
-                
-                salvarCadastro = WebDriverWait(driver,2).until(EC.presence_of_element_located((By.XPATH, "/html/body/seb-root/div[3]/div/seb-new-user/div/section[2]/div/seb-buttons-form-completion/div/button[2]")))
-                salvarCadastro.click()
-                 
-                # Switch to the first tab
-                driver.close()
-                first_tab = driver.window_handles[0]
-                driver.switch_to.window(first_tab)                        
-                print("Cadastro realizado ", nomeEscola)
-
-            else:
-                print("Já cadastrado na Escola: ", nomeEscola)
-                print(indice)
-                driver.close()
-                first_tab = driver.window_handles[0]
-                driver.switch_to.window(first_tab)  
-                
-        except Exception as error:
-            print("Deu erro na escola: ", nomeEscola)
-            print(indice)
-            #print(error)
-                
-            print(f"[{indice}] Deu erro na escola: {nomeEscola}")
-            errosEscolas.append(indice)
-            
-            if len(driver.window_handles) > 1:
-                driver.close()
-            first_tab = driver.window_handles[0]
-            driver.switch_to.window(first_tab)              
+        
+        if len(driver.window_handles) > 1:
+            driver.close()
+        first_tab = driver.window_handles[0]
+        driver.switch_to.window(first_tab)              
 if __name__ == "__main__":
 
 
@@ -2186,7 +2071,7 @@ if __name__ == "__main__":
     #adicionarUsuariosTurmas(driver, cardsEscolas, "cursosBC25.txt")
     #cadastrarTurmas(driver, cardsEscolas, "cursosBC25.txt") #cadastra turmas
     #cadastrarProdutos(driver, cardsEscolas, "cursosBC25.txt")
-     #cadastrarProdutosArvore(driver, cardsEscolas, "cursosBC25.txt")
+    #cadastrarProdutosArvore(driver, cardsEscolas, "cursosBC25.txt")
     #posicoesEscolas(driver) #verifica a posiçao das escolas
     #verificarTurmas(driver, cardsEscolas,"cursos2025.txt" )
     #pegarCursos2025(driver,cardsEscolas,"cursos2025.txt")
